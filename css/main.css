@@ -1,0 +1,324 @@
+@import url(https://fonts.googleapis.com/css?family=Space+Grotesk:300,regular,500,600,700);
+
+:root {
+	--black: #000;
+	--dark-purple: #5c2dd5;
+	--purple: #7945ff;
+	--red: #fd6687;
+	--yellow: #ffce67;
+	--white: #fff;
+}
+
+* {
+	padding: 0;
+	font-family: "Space Grotesk", Arial, Helvetica, sans-serif;
+	margin: 0;
+}
+
+dialog {
+	margin: auto;
+}
+
+h1 {
+	font-size: 56px;
+	line-height: 71px;
+	margin: 0;
+}
+
+h2 {
+	font-size: 24px;
+	line-height: 31px;
+}
+
+h3 {
+	font-size: 20px;
+	line-height: 26px;
+}
+
+h4 {
+	font-size: 16px;
+	line-height: 21px;
+}
+
+p {
+	font-size: 16px;
+	line-height: 21px;
+}
+
+button {
+	font-size: 24px;
+	padding: 8px;
+	border-radius: 20px;
+	border: 3px solid #000000;
+	box-shadow: 0px 10px 0px 0px #000000;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+body {
+	display: grid;
+	grid-template-rows: 1fr 6fr 1fr;
+	height: 100vh;
+	background-color: var(--purple);
+}
+
+button:hover {
+	border: 3px solid #5c2dd5;
+	box-shadow: 0px 10px 0px 0px #5c2dd5;
+}
+
+button.red {
+	background-color: var(--red);
+	color: white;
+}
+
+button.yellow {
+	background-color: var(--yellow);
+}
+
+button.white {
+	background-color: var(--white);
+}
+
+.smallbutton {
+	border: none;
+	box-shadow: none;
+	font-size: 16px;
+	padding: 4px 12px 4px 12px;
+	border-radius: 15564564564px;
+	background-color: #5c2dd5;
+	color: white;
+}
+
+.smallbutton:hover {
+	background: #fd6687;
+	border: none;
+	box-shadow: none;
+}
+
+nav ul,
+nav ul li {
+	display: flex;
+	flex-direction: row;
+	list-style: none;
+	justify-content: space-between;
+	align-items: center;
+}
+
+nav {
+	width: 50%;
+}
+
+header {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+nav li {
+	height: min-content;
+}
+
+.score {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	width: max-content;
+	padding: 20px;
+	border-radius: 20px;
+	background: #ffffff;
+	border: 3px solid #000000;
+	box-shadow: 0px 10px 0px 0px #000000;
+	background-color: #fff;
+	height: max-content;
+	justify-content: center;
+	text-align: center;
+}
+
+.score h1 {
+	margin: 0;
+}
+
+.score img {
+	position: absolute;
+	top: 0;
+	right: 50%;
+	transform: translate(50%, -50%);
+	width: 40px;
+	height: 40px;
+}
+
+main {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 40px;
+}
+
+.grid {
+	position: relative;
+	width: 60vmin;
+	height: 60vmin;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+	background-color: #fff;
+	border-radius: 40px;
+	border: 3px solid #000000;
+	box-shadow: 0px 2vmin 0px 0px #000000;
+	padding: 16px;
+	gap: 8px;
+	box-sizing: content-box;
+	padding-bottom: 48px;
+}
+
+.grid .column {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.grid .column button {
+	height: 100%;
+	border: none;
+	box-shadow: none;
+	border-radius: 100000000000px;
+	background-color: var(--purple);
+	border: 3px solid black;
+	box-shadow: inset 0px 1vmin 0px 0px #000000;
+}
+
+.grid button:focus-visible {
+	outline: 5px dashed red;
+}
+
+.timer {
+	position: absolute;
+	bottom: 0;
+	right: 50%;
+	transform: translate(50%, 70%);
+	background: center / contain url(../assets/Rectangle.svg) no-repeat;
+	padding: 32px;
+	text-align: center;
+}
+
+.timer h1 {
+	margin: 0;
+}
+
+
+.result {
+	position: absolute;
+	bottom: 0;
+	right: 50%;
+	transform: translate(50%, 70%);
+	text-align: center;
+	background: #FFFFFF;
+	border: 3px solid #000000;
+	box-shadow: 0px 10px 0px 0px #000000;
+	border-radius: 20px;
+	width: 50%;
+	padding: 10px;
+}
+
+
+.rules::backdrop {
+	background-color: var(--purple 	);
+}
+
+.rules {
+	overflow: visible;
+	position: relative;
+	padding: 32px;
+	border: 3px solid black;
+	border-radius: 20px;
+	width: 50%;
+	max-width: 480px;
+	background-color: #fff;
+	flex-direction: column;
+	gap: 16px;
+	box-shadow: 0px 10px 0px 0px #000000;
+}
+
+.rules ol {
+	list-style: inside decimal;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+dialog[open] {
+	display: flex;
+}
+
+.rules ol li::marker {
+	font-weight: bold;
+	color: black;
+}
+
+.rules p, .rules li {
+	color: rgba(0, 0, 0, 0.6611);
+}
+
+.rules h2 {
+	color: var(--purple);
+}
+
+.rules h1 {
+	text-align: center;
+}
+
+.rules button {
+	position: absolute;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	bottom: 0;
+	right: 50%;
+	transform: translate(50%, 50%);
+	border-radius: 564564564564564px;
+	width: 64px;
+	height: 64px;
+	background-color: var(--red);
+}
+
+.rules button img {
+	width: 75%;
+	height: 75%;
+}
+
+.pause, .menu {
+	flex-direction: column;
+	gap: 32px;
+	padding: 32px;
+	min-width: 320px;
+	align-items: center;
+	border-radius: 40px;
+	color: white;
+	background-color: var(--purple);
+	border: 3px solid black;
+}
+
+.menu {
+	min-width: 420px;
+}
+
+.menu::backdrop {
+	background-color: var(--dark-purple);
+}
+
+.menu button {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+	padding: 16px;
+}
+
+.pause::backdrop {
+	background-color: rgba(0, 0, 0, 0.5)
+}
+
+.pause button {
+	width: 100%;
+}
