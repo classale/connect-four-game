@@ -9,24 +9,21 @@
     </head>
     <body onload=""">
 
-        <dialog class="pause">
-            <h1>PAUSE</h1>
-            <button>CONTINUE GAME</button><button>RESTART</button><button class="red">QUIT GAME</button>
-        </dialog>
+
         <dialog class="menu">
             <img src="assets/logo.svg" alt="Logo">
-            <button class="yellow">
+            <button class="yellow play">
                 <span>PLAY VS PLAYER</span>
                 <img src="assets/player-vs-player.svg" alt="Player vs Player" srcset="">
             </button>
-            <button onclick="document.querySelector('.rules').showModal()">GAME RULES</button>
+            <button class="rules">GAME RULES</button>
         </dialog>
         <header>
             <nav>
                 <ul>
-                    <li><button class="smallbutton">MENU</button></li>
+                    <li><button class="smallbutton pause-button">MENU</button></li>
                     <li><img src="assets/logo.svg" alt="logo"></li>
-                    <li><button class="smallbutton">MENU</button></li>
+                    <li><button class="smallbutton">RESTART</button></li>
                 </ul>
             </nav>
         </header>
@@ -34,30 +31,30 @@
             <div class="score">
                 <img src="assets/player-one.svg" alt="Player 1">
                 <p>Player 1</p>
-                <h1 id="Player1Score">0</h1>
+                <h1 id="Player1Score">0</span>
             </div>
             <div class="grid">
-                <div class="column"><button></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button></div>
-                <div class="column"><button></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button></div>
-                <div class="column"><button></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button></div>
-                <div class="column"><button></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button></div>
-                <div class="column"><button></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button></div>
-                <div class="column"><button></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button></div>
-                <div class="column"><button></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button></div>
+                <div class="column"><button></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button></div>
+                <div class="column"><button></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button></div>
+                <div class="column"><button></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button></div>
+                <div class="column"><button></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button></div>
+                <div class="column"><button></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button></div>
+                <div class="column"><button></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button></div>
+                <div class="column"><button></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button></div>
                 <div class="timer">
                     <p>Player 2's turn</p>
-                    <h1>14s</h1>
+                    <span class="big">14s</span>
                 </div>
                 <div class="result">
                     <p>PLAYER 1</p>
-                    <h1>WINS</h1>
+                    <span class="big">WINS</span>
                     <button class="smallbutton">PLAY AGAIN</button>
                 </div>
             </div>
             <div class="score">
                 <img src="assets/player-two.svg" alt="Player 2">
                 <p>Player 2</p>
-                <h1 id="Player1Score">0</h1>
+                <h1 id="Player1Score">0</span>
             </div>
         </main>
         <footer></footer>

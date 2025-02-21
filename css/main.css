@@ -19,7 +19,9 @@ dialog {
 	margin: auto;
 }
 
-h1 {
+h1, .big {
+	display: block;
+	font-weight: bold;
 	font-size: 56px;
 	line-height: 71px;
 	margin: 0;
@@ -159,7 +161,7 @@ main {
 .grid {
 	position: relative;
 	width: 60vmin;
-	height: 60vmin;
+	height: calc((60vmin/70)*60);
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
 	background-color: #fff;
@@ -202,7 +204,7 @@ main {
 	text-align: center;
 }
 
-.timer h1 {
+.timer .big {
 	margin: 0;
 }
 
