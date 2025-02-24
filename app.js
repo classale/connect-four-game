@@ -3,23 +3,210 @@ document.querySelector('.menu').showModal()
 let player1Score = 0;
 let player2Score = 0;
 let column = 0;
-let turn = 0;
+let turn = "";
 let remainingTime = 0;
-let game = []
+let game = [];
+let isTimerRunning = false;
+let hasWon = false;
 
-for(let y = 0; y < 6; y++) {
-    let line = [];
-    for(let x = 0; x < 7; x++) {
-        line.push("")
+let interval = 0;
+
+const timer = document.querySelector(".timer > .value")
+const timerEl = document.querySelector(".timer")
+const timerName = document.querySelector(".timer > p")
+const columns = document.querySelectorAll(".column")
+
+function checkWinner(grille) {
+    let number = 0;
+    let thingies = []
+    for(let checking of ["X", "O"]) {
+        for(let y = 0; y < grille.length; y++) {
+            for(let x = 0; x < grille[y].length; x++) {
+                if(grille[y][x] != "X" && grille[y][x] != "O") continue;
+                for(let xi = -1; xi < 2; xi++) {
+                    for(let yi = -1; yi < 2; yi++) {
+                        if(xi != 0 || yi != 0) {
+                            for(let i = 0; i < 4; i++) {
+                                try {
+                                    if(grille[y + (yi * i)][x + (xi * i)] == checking) {
+                                        number++;
+                                        thingies.push([y + (yi * i), x + (xi * i)])
+                                    }
+                                } catch {}
+                            }
+                        }
+                        if(number == 4) return [checking, thingies]
+                        number = 0;
+                        thingies = []
+                    }
+                }
+            }
+        }
     }
-    game.push(line);
+    return [" ", []];
 }
+
+document.addEventListener("keydown", e => {
+    if(!isTimerRunning || hasWon) return;
+    if(e.key == "ArrowRight" && column < 6) column++;
+    if(e.key == "ArrowLeft" && column > 0) column--;
+    if(e.key == " ") {
+        try {
+            const elements = columns[column].querySelectorAll(`*:not(.yellow):not(.red)`)
+            elements[elements.length-1].classList.add(turn == "O" ? "red" : "yellow" );
+            game[column][game[column].filter(e => e == "").length - 1] = turn
+            let [winner, things] = checkWinner(game);
+            switch(winner) {
+                case "X":
+                    for(let thing of things) {
+                        let [y, x] = thing;
+                        document.querySelectorAll(".column")[y].querySelectorAll("*")[x].classList.add("circle")
+                    }
+                    document.querySelector(".grid").appendChild(createVictoryBanner(turn == "O" ? 1 : 2))
+                    hasWon = true;
+                    player2Score++;
+                    clearInterval(interval)
+                    break;
+                case "O":
+                    for(let thing of things) {
+                        let [y, x] = thing;
+                        document.querySelectorAll(".column")[y].querySelectorAll("*")[x].classList.add("circle")
+                    }
+                    document.querySelector(".grid").appendChild(createVictoryBanner(turn == "O" ? 1 : 2))
+                    hasWon = true;
+                    player1Score++;
+                    clearInterval(interval)
+                    break;
+            }
+            document.getElementById("Player1Score").innerHTML = player1Score
+            document.getElementById("Player2Score").innerHTML = player2Score
+            changeTurn()
+        } catch {};
+    }
+    for(let columnEl of columns) {
+        columnEl.id = ""
+    }
+    columns[column].id = "selected"
+})
+
+/*
+<div class="result">
+    <p>PLAYER 1</p>
+    <span class="big">WINS</span>
+    <button class="smallbutton">PLAY AGAIN</button>
+</div>
+*/
+
+function createVictoryBanner(player) {
+    const result = Object.assign(document.createElement("div"), {className: "result"})
+    const restartEl = Object.assign(document.createElement("button"), {innerHTML: `PLAY AGAIN`, className: "smallbutton"})
+    result.appendChild(Object.assign(document.createElement("p"), {innerHTML: `PLAYER ${player}`}))
+    result.appendChild(Object.assign(document.createElement("span"), {innerHTML: `WINS`, className: "big"}))
+    result.appendChild(restartEl)
+    restartEl.addEventListener("click", e => {
+        e.currentTarget.parentElement.remove();
+        console.log(e.currentTarget.parentElement)
+        restart();
+    })
+    return result
+}
+
+function changeTurn() {
+    turn = turn == "O" ? "X" : "O"
+    timerName.innerHTML = `PLAYER ${turn == "O" ? 1 : 2}'S TURN`
+    timer.innerHTML = `PLAYER ${turn == "O" ? 1 : 2}'S TURN`
+    for(let columnEl of columns) {
+        if(columnEl.classList.contains("red")) {
+            columnEl.className = columnEl.className.replace("red", "yellow");
+            timerEl.className = timerEl.className.replace("red", "yellow");
+            continue;
+        }
+        if(columnEl.classList.contains("yellow")) {
+            columnEl.className = columnEl.className.replace("yellow", "red");
+            timerEl.className = timerEl.className.replace("yellow", "red");
+            continue;
+        } 
+    }
+    remainingTime = 15;
+    timer.innerHTML = `${remainingTime}s`
+}
+
+function initGame() {
+    hasWon = false;
+    timerEl.classList.remove("yellow")
+    timerEl.classList.add("red")
+    for(let columnEl of columns) {
+        columnEl.classList.remove("yellow")
+        columnEl.classList.add("red")
+    }
+    clearInterval(interval)
+    for(let columnEl of columns) {
+        for(el of columnEl.children) {
+            el.classList.remove("red")
+            el.classList.remove("yellow")
+            el.classList.remove("circle")
+        }
+    }
+    resetGame();
+    remainingTime = 15;
+    timer.innerHTML = `${remainingTime}s`
+    column = 0;
+    for(let columnEl of columns) {
+        columnEl.id = ""
+    }
+    columns[column].id = "selected"
+    turn = "O";
+    isTimerRunning = true;
+    document.getElementById("Player1Score").innerHTML = player1Score
+    document.getElementById("Player2Score").innerHTML = player2Score
+    interval = setInterval(() => {
+        remainingTime--;
+        if(remainingTime < 0) {
+            changeTurn()
+        }
+        timer.innerHTML = `${remainingTime}s`
+    }, 1000)
+}
+
+function restart(e) {
+    initGame();
+}
+
+function quitGame(e) {
+    try {document.querySelector(".result").remove()} catch {};
+    player1Score = 0
+    player2Score = 0
+    isTimerRunning = false;
+    clearInterval(interval)
+    e.currentTarget.parentElement.remove()
+    document.querySelector('.menu').showModal()
+}
+
+function resetGame() {
+    game = []
+    for(let y = 0; y < 7; y++) {
+        let line = [];
+        for(let x = 0; x < 6; x++) {
+            line.push("")
+        }
+        game.push(line);
+    }
+}
+
+resetGame();
 
 function createPause() {
     const dialog = Object.assign(document.createElement("dialog"), {className: "pause"})
     dialog.appendChild(Object.assign(document.createElement("button"), {innerText: "CONTINUE GAME", onclick: e => e.currentTarget.parentElement.remove()}))
-    dialog.appendChild(Object.assign(document.createElement("button"), {innerText: "RESTART"}))
-    dialog.appendChild(Object.assign(document.createElement("button"), {innerText: "QUIT GAME", className: "red"}))
+    const restartButton = Object.assign(document.createElement("button"), {innerText: "RESTART"})
+    dialog.appendChild(restartButton)
+    restartButton.addEventListener("click", e => {
+        e.currentTarget.parentElement.remove()
+        restart()
+    })
+    const quitGameButton = Object.assign(document.createElement("button"), {innerText: "QUIT GAME", className: "red"})
+    dialog.appendChild(quitGameButton)
+    quitGameButton.addEventListener("click", quitGame)
     return dialog;
 }
 
@@ -41,7 +228,13 @@ function createRules() {
     return dialog
 }
 
-document.querySelector(".play").addEventListener("click", e => e.currentTarget.parentElement.remove())
+function startGame(e) {
+    e.currentTarget.parentElement.close()
+    initGame()
+}
+
+document.querySelector(".play").addEventListener("click", startGame)
+document.querySelector(".restart-button").addEventListener("click", restart)
 
 document.querySelector(".rules").addEventListener("click", () => {
     let rules = createRules();

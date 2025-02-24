@@ -204,6 +204,11 @@ main {
 	text-align: center;
 }
 
+.timer.red {
+	background: center / contain url(../assets/Rectanglered.svg) no-repeat;
+	color: white;
+}
+
 .timer .big {
 	margin: 0;
 }
@@ -323,4 +328,36 @@ dialog[open] {
 
 .pause button {
 	width: 100%;
+}
+
+.column button.yellow {
+	background-color: yellow; 
+}
+
+.column button.red {
+	background-color: red; 
+}
+
+#selected {
+	position: relative;
+}
+
+#selected:before {
+	position: absolute;
+	content: "";
+	top: 0%;
+	left: 50%;
+	transform: translate(-50%, -150%);
+	background: no-repeat center / contain url("../assets/playerturn.svg");
+	width: 50px;
+	height: 50px;
+}
+
+#selected.red:before {
+	background: no-repeat center / contain url("../assets/playerturnred.svg");
+}
+
+.circle {
+	background: no-repeat center / contain url("../assets/circle.svg");
+	background-size: 50% 50%;
 }

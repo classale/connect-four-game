@@ -8,8 +8,6 @@
         <title>Document</title>
     </head>
     <body onload=""">
-
-
         <dialog class="menu">
             <img src="assets/logo.svg" alt="Logo">
             <button class="yellow play">
@@ -23,7 +21,7 @@
                 <ul>
                     <li><button class="smallbutton pause-button">MENU</button></li>
                     <li><img src="assets/logo.svg" alt="logo"></li>
-                    <li><button class="smallbutton">RESTART</button></li>
+                    <li><button class="smallbutton restart-button">RESTART</button></li>
                 </ul>
             </nav>
         </header>
@@ -34,27 +32,23 @@
                 <h1 id="Player1Score">0</span>
             </div>
             <div class="grid">
-                <div class="column"><button></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button></div>
-                <div class="column"><button></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button></div>
-                <div class="column"><button></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button></div>
-                <div class="column"><button></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button></div>
-                <div class="column"><button></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button></div>
-                <div class="column"><button></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button></div>
-                <div class="column"><button></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button></div>
-                <div class="timer">
-                    <p>Player 2's turn</p>
-                    <span class="big">14s</span>
+                <div class="column red" id="selected"><button></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button></div>
+                <div class="column red"><button></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button></div>
+                <div class="column red"><button></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button></div>
+                <div class="column red"><button></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button></div>
+                <div class="column red"><button></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button></div>
+                <div class="column red"><button></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button></div>
+                <div class="column red"><button></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button></div>
+                <div class="timer red">
+                    <p>PLAYER 1'S TURN</p>
+                    <span class="big value">14s</span>
                 </div>
-                <div class="result">
-                    <p>PLAYER 1</p>
-                    <span class="big">WINS</span>
-                    <button class="smallbutton">PLAY AGAIN</button>
-                </div>
+
             </div>
             <div class="score">
                 <img src="assets/player-two.svg" alt="Player 2">
                 <p>Player 2</p>
-                <h1 id="Player1Score">0</span>
+                <h1 id="Player2Score">0</span>
             </div>
         </main>
         <footer></footer>
