@@ -142,6 +142,11 @@ nav li {
 	margin: 0;
 }
 
+.score p {
+	font-size: 20px;
+	font-weight: 700;
+}
+
 .score img {
 	position: absolute;
 	top: 0;
@@ -316,10 +321,13 @@ dialog[open] {
 
 .menu button {
 	display: flex;
-	justify-content: space-between;
 	align-items: center;
 	width: 100%;
 	padding: 16px;
+}
+
+.menu button *:last-child {
+	margin-left: auto;
 }
 
 .pause::backdrop {
@@ -331,12 +339,14 @@ dialog[open] {
 }
 
 .column button.yellow {
-	background-color: yellow; 
+	background-color: #FFCE67; 
 }
 
 .column button.red {
-	background-color: red; 
+	background-color: #FD6687; 
 }
+
+
 
 #selected {
 	position: relative;
@@ -360,4 +370,24 @@ dialog[open] {
 .circle {
 	background: no-repeat center / contain url("../assets/circle.svg");
 	background-size: 50% 50%;
+}
+
+footer {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	height: 25%;
+	z-index: -100;
+	border-top-left-radius: 60px;
+	border-top-right-radius: 60px;
+	background-color: #5C2DD5;
+}
+
+footer.yellow {
+
+	background-color: #FFCE67;
+}
+footer.red {
+	background-color: #FD6687;
+
 }

@@ -1,10 +1,13 @@
+let turn = "X"
+
 const grilleAvecGagnant1 = [
-    [ " ", " ", " ", " ", " ", " ", " " ],
-    [ " ", " ", " ", " ", " ", " ", " " ],
-    [ " ", " ", " ", " ", " ", " ", " " ],
-    [ " ", " ", " ", " ", " ", " ", " " ],
-    [ " ", " ", " ", " ", " ", " ", " " ],
-    [ "X", "X", "X", "X", " ", " ", " " ]
+    ["","","","","","X"],
+    ["","","","","","X"],
+    ["","","","","","X"],
+    ["","","","","",""],
+    ["","","","","",""],
+    ["","","","","",""],
+    ["","","","","",""]
 ];
    
 const grilleAvecGagnant2 = [
@@ -20,9 +23,9 @@ const grilleAvecGagnant3 = [
     [ " ", " ", " ", " ", " ", " ", " " ],
     [ " ", " ", " ", " ", " ", " ", " " ],
     [ " ", " ", " ", "X", " ", " ", " " ],
-    [ " ", " ", "X", " ", " ", " ", " " ],
-    [ " ", "X", " ", " ", " ", " ", " " ],
-    [ "X", " ", " ", " ", " ", " ", " " ]
+    [ " ", " ", "X", "O", " ", " ", " " ],
+    [ " ", "X", "O", "O", " ", " ", " " ],
+    [ "X", "O", "O", "O", " ", " ", " " ]
 ];
    
 const grilleAvecGagnant4 = [
@@ -39,8 +42,8 @@ const grilleSansGagnant = [
     [ " ", " ", " ", " ", " ", " ", " " ],
     [ " ", " ", " ", "X", " ", " ", " " ],
     [ " ", " ", "X", "O", "X", " ", " " ],
-    [ " ", "O", "O", "O", " ", "X", " " ],
-    [ "X", "O", "O", "X", "O", " ", "X" ]
+    [ " ", "O", "O", "O", "O", "X", " " ],
+    [ "X", "O", "O", "X", "O", "O", "X" ]
 ];
 
 function checkWinner(grille) {
@@ -72,6 +75,39 @@ function checkWinner(grille) {
     }
     return [" ", []];
 }
+
+let moves = 0;
+
+function nbMoves(grille) {
+    let out = 0;
+    for(let column of grille) for(let _ of column.filter(e => e != " ")) out++;
+    return out;
+}
+
+function playMove(game, column) {
+    game[column][game[column].filter(e => e == "").length - 1] = turn
+    turn = turn == "X" ? "O" : "X";
+    moves++;
+    return game;
+}
+
+function canPlay(game, column) {
+    return game[column].filter(e => e != " ").length != 6;
+}
+
+function ai(grille) {
+    for(let x = 0; x < 7; x++) {
+        if(grille.canPlay(grille, x)) {
+            return playMove(grille, x);
+        }
+    }
+
+    return playMove(grille, [0, 1, 2, 3, 4, 5, 6].filter(e => canPlay(grille, e)).sort(() => Math.random() - .5)[0]);
+}
+
+console.log(negamax(grilleAvecGagnant1, turn))
+
+
 
 console.log(checkWinner(grilleAvecGagnant1)); // retourne "X"
 console.log(checkWinner(grilleAvecGagnant2)); // retourne "X"
