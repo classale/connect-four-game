@@ -28,7 +28,7 @@ function checkWinner(grille) {
                 for(let xi = -1; xi < 2; xi++) {
                     for(let yi = -1; yi < 2; yi++) {
                         if(xi != 0 || yi != 0) {
-                            for(let i = 0; i < 5; i++) {
+                            for(let i = 0; i < 4; i++) {
                                 try {
                                     if(grille[y + (yi * i)][x + (xi * i)] == checking) {
                                         number++;
@@ -37,7 +37,7 @@ function checkWinner(grille) {
                                 } catch {}
                             }
                         }
-                        if(number == 5) return [checking, thingies]
+                        if(number == 4) return [checking, thingies]
                         number = 0;
                         thingies = []
                     }
