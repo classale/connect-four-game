@@ -8,38 +8,42 @@ let remainingTime = 0;
 let game = [];
 let isTimerRunning = false;
 let hasWon = false;
+let isPaused = false;
 
 let isAi = false;
 
 let interval = 0;
 
-const timer = document.querySelector(".timer > .value")
-const timerEl = document.querySelector(".timer")
-const timerName = document.querySelector(".timer > p")
-const columns = document.querySelectorAll(".column")
+const timer = document.querySelector(".timer > .value");
+const timerEl = document.querySelector(".timer");
+const timerName = document.querySelector(".timer > p");
+const columns = document.querySelectorAll(".column");
 
 function checkWinner(grille) {
     let number = 0;
-    let thingies = []
-    for(let checking of ["X", "O"]) {
-        for(let y = 0; y < grille.length; y++) {
-            for(let x = 0; x < grille[y].length; x++) {
-                if(grille[y][x] != "X" && grille[y][x] != "O") continue;
-                for(let xi = -1; xi < 2; xi++) {
-                    for(let yi = -1; yi < 2; yi++) {
-                        if(xi != 0 || yi != 0) {
-                            for(let i = 0; i < 4; i++) {
+    let thingies = [];
+    for (let checking of ["X", "O"]) {
+        for (let y = 0; y < grille.length; y++) {
+            for (let x = 0; x < grille[y].length; x++) {
+                if (grille[y][x] != "X" && grille[y][x] != "O") continue;
+                for (let xi = -1; xi < 2; xi++) {
+                    for (let yi = -1; yi < 2; yi++) {
+                        if (xi != 0 || yi != 0) {
+                            for (let i = 0; i < 4; i++) {
                                 try {
-                                    if(grille[y + (yi * i)][x + (xi * i)] == checking) {
+                                    if (
+                                        grille[y + yi * i][x + xi * i] ==
+                                        checking
+                                    ) {
                                         number++;
-                                        thingies.push([y + (yi * i), x + (xi * i)])
+                                        thingies.push([y + yi * i, x + xi * i]);
                                     }
                                 } catch {}
                             }
                         }
-                        if(number == 4) return [checking, thingies]
+                        if (number == 4) return [checking, thingies];
                         number = 0;
-                        thingies = []
+                        thingies = [];
                     }
                 }
             }
@@ -49,83 +53,116 @@ function checkWinner(grille) {
 }
 
 function canPlay(grille, column) {
-    return grille[column].filter(e => e == "X" || e == "O").length != 6;
+    return grille[column].filter((e) => e == "X" || e == "O").length != 6;
 }
 
 function nbMoves(grille) {
     let out = 0;
-    for(let column of grille) for(let _ of column.filter(e => e != "")) out++;
+    for (let column of grille)
+        for (let _ of column.filter((e) => e != "")) out++;
     return out;
 }
 
 function ai(grille) {
-    for(let x = 0; x < 7; x++) {
-        if(canPlay(grille, x) && checkWinner(playMove(grille, x, turn == "X" ? "O" : "X"))[0] != " ") {
+    for (let x = 0; x < 7; x++) {
+        if (
+            canPlay(grille, x) &&
+            checkWinner(playMove(grille, x, turn))[0] != " "
+        ) {
+            return playMove(grille, x, turn, true);
+        }
+    }
+     
+    for (let x = 0; x < 7; x++) {
+        if (
+            canPlay(grille, x) &&
+            checkWinner(playMove(grille, x, turn == "X" ? "O" : "X"))[0] != " "
+        ) {
             return playMove(grille, x, turn, true);
         }
     }
 
-    for(let x = 0; x < 7; x++) {
-        if(canPlay(grille, x) && checkWinner(playMove(grille, x, turn))[0] != " ") {
-            return playMove(grille, x, turn, true);
-        }
-    }
-
-    return playMove(grille, [0, 1, 2, 3, 4, 5, 6].filter(e => canPlay(grille, e)).sort(() => Math.random() - .5)[0], turn, true);
+    return playMove(
+        grille,
+        [0, 1, 2, 3, 4, 5, 6]
+            .filter((e) => canPlay(grille, e))
+            .sort(() => Math.random() - 0.5)[0],
+        turn,
+        true
+    );
 }
 
 function playMove(grille, column, turn, playHTML = false) {
     const copiedGrille = JSON.parse(JSON.stringify(grille));
-    if(playHTML) {
-        const elements = columns[column].querySelectorAll(`*:not(.yellow):not(.red)`)
-        elements[elements.length-1].classList.add(turn == "O" ? "red" : "yellow" );
+    if (playHTML) {
+        const elements = columns[column].querySelectorAll(
+            `*:not(.yellow):not(.red)`
+        );
+        elements[elements.length - 1].classList.add(
+            turn == "O" ? "red" : "yellow"
+        );
     }
-    copiedGrille[column][copiedGrille[column].filter(e => e == "").length - 1] = turn
+    copiedGrille[column][
+        copiedGrille[column].filter((e) => e == "").length - 1
+    ] = turn;
     return copiedGrille;
 }
 
 function checkWin() {
     let [winner, things] = checkWinner(game);
-    if(nbMoves(game) == 42) {
-        document.querySelector(".grid").appendChild(createVictoryBanner(0))
+    if (nbMoves(game) == 42) {
+        document.querySelector(".grid").appendChild(createVictoryBanner(0));
         document.querySelector(".timer").style.display = "none";
         return true;
     }
-    if(winner == " ") return false;
-    switch(winner) {
+    if (winner == " ") return false;
+    switch (winner) {
         case "X":
-            for(let thing of things) {
+            for (let thing of things) {
                 let [y, x] = thing;
-                document.querySelectorAll(".column")[y].querySelectorAll("*")[x].classList.add("circle")
+                document
+                    .querySelectorAll(".column")
+                    [y].querySelectorAll("*")
+                    [x].classList.add("circle");
             }
-            document.querySelector(".grid").appendChild(createVictoryBanner(turn == "O" ? 1 : 2))
-            document.querySelector("footer").classList.add(turn == "X" ? "yellow" : "red")
+            document
+                .querySelector(".grid")
+                .appendChild(createVictoryBanner(turn == "O" ? 1 : 2));
+            document
+                .querySelector("footer")
+                .classList.add(turn == "X" ? "yellow" : "red");
             document.querySelector(".timer").style.display = "none";
             hasWon = true;
             player2Score++;
-            clearInterval(interval)
+            clearInterval(interval);
             break;
         case "O":
-            for(let thing of things) {
+            for (let thing of things) {
                 let [y, x] = thing;
-                document.querySelectorAll(".column")[y].querySelectorAll("*")[x].classList.add("circle")
+                document
+                    .querySelectorAll(".column")
+                    [y].querySelectorAll("*")
+                    [x].classList.add("circle");
             }
-            document.querySelector(".grid").appendChild(createVictoryBanner(turn == "O" ? 1 : 2))
-            document.querySelector("footer").classList.add(turn == "X" ? "yellow" : "red")
+            document
+                .querySelector(".grid")
+                .appendChild(createVictoryBanner(turn == "O" ? 1 : 2));
+            document
+                .querySelector("footer")
+                .classList.add(turn == "X" ? "yellow" : "red");
             document.querySelector(".timer").style.display = "none";
             hasWon = true;
             player1Score++;
-            clearInterval(interval)
+            clearInterval(interval);
             break;
     }
-    document.getElementById("Player1Score").innerHTML = player1Score
-    document.getElementById("Player2Score").innerHTML = player2Score
+    document.getElementById("Player1Score").innerHTML = player1Score;
+    document.getElementById("Player2Score").innerHTML = player2Score;
     return true;
 }
 
-
-
 document.addEventListener("keydown", e => {
+    if (isPaused) return;
     if(!isTimerRunning || hasWon) return;
     if(e.key == "ArrowRight" && column < 6) column++;
     if(e.key == "ArrowLeft" && column > 0) column--;
@@ -192,6 +229,9 @@ function changeTurn() {
 }
 
 function initGame() {
+    isPaused = false;
+    console.log("pogfae");
+    document.querySelector(".result")?.remove();
     document.querySelector(".timer").style.display = "block";
     hasWon = false;
     document.querySelector("footer").classList.remove("yellow")
@@ -211,8 +251,8 @@ function initGame() {
         }
     }
     resetGame();
+    timer.innerHTML = `${remainingTime}s`;
     remainingTime = 15;
-    timer.innerHTML = `${remainingTime}s`
     column = 0;
     for(let columnEl of columns) {
         columnEl.id = ""
@@ -265,7 +305,15 @@ resetGame();
 
 function createPause() {
     const dialog = Object.assign(document.createElement("dialog"), {className: "pause"})
-    dialog.appendChild(Object.assign(document.createElement("button"), {innerText: "CONTINUE GAME", onclick: e => e.currentTarget.parentElement.remove()}))
+    dialog.appendChild(
+        Object.assign(document.createElement("button"), {
+            innerText: "CONTINUE GAME",
+            onclick: (e) => {
+                e.currentTarget.parentElement.remove();
+                isPaused = false;
+            },
+        })
+    );
     const restartButton = Object.assign(document.createElement("button"), {innerText: "RESTART"})
     dialog.appendChild(restartButton)
     restartButton.addEventListener("click", e => {
@@ -307,6 +355,10 @@ document.querySelector(".playai").addEventListener("click", e => {
     startGame(e)
 })
 document.querySelector(".restart-button").addEventListener("click", restart)
+document
+    .querySelector(".restart-button")
+    .addEventListener("keydown", (e) => e.preventDefault());
+
 
 document.querySelector(".rulesbutton").addEventListener("click", () => {
     let rules = createRules();
@@ -317,5 +369,6 @@ document.querySelector(".rulesbutton").addEventListener("click", () => {
 document.querySelector(".pause-button").addEventListener("click", () => {
     let pause = createPause();
     document.body.appendChild(pause)
+    isPaused = true;
     pause.showModal()
 })
